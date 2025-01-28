@@ -13,12 +13,40 @@ class ChiefScreen extends StatefulWidget {
 class _ChiefScreenState extends State<ChiefScreen> {
   int _selectedIndex = 1;
   bool _isNotificationEnabled = true;
-  Map<int, List<String>> tableOrders = {
-    1: ["Pizza", "Burger", "Pasta", "Beer"],
-    2: ["Sushi", "Ramen", "Fried Rice", "Miso Soup", "Sake"],
-    3: ["Steak", "Salad", "Soup", "Wine"],
-    4: ["Biryani", "Tandoori Chicken", "Naan", "Lassi", "Chai", "Gulab Jamun"],
-    5: ["Tacos", "Burrito", "Nachos"],
+  Map<int, List<Map<String, dynamic>>> tableOrders = {
+    1: [
+      {"name": "Pizza", "quantity": 2},
+      {"name": "Burger", "quantity": 1},
+      {"name": "Pasta", "quantity": 3},
+      {"name": "Beer", "quantity": 4},
+    ],
+    2: [
+      {"name": "Sushi", "quantity": 5},
+      {"name": "Ramen", "quantity": 2},
+      {"name": "Fried Rice", "quantity": 1},
+      {"name": "Miso Soup", "quantity": 3},
+      {"name": "Sake", "quantity": 2},
+    ],
+    3: [
+      {"name": "Steak", "quantity": 2},
+      {"name": "Salad", "quantity": 1},
+      {"name": "Soup", "quantity": 3},
+      {"name": "Wine", "quantity": 4},
+      {"name": "Cheesecake", "quantity": 2},
+    ],
+    4: [
+      {"name": "Biryani", "quantity": 3},
+      {"name": "Tandoori Chicken", "quantity": 1},
+      {"name": "Naan", "quantity": 4},
+      {"name": "Lassi", "quantity": 2},
+      {"name": "Chai", "quantity": 3},
+      {"name": "Gulab Jamun", "quantity": 2},
+    ],
+    5: [
+      {"name": "Tacos", "quantity": 3},
+      {"name": "Burrito", "quantity": 2},
+      {"name": "Nachos", "quantity": 5},
+    ],
   };
 
   void _onItemTapped(int index) {
@@ -28,7 +56,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
   }
 
   // 🔹 Titles for each screen
-  final List<String> _appBarTitles = ["Cook", "Home", "Settings"];
+  final List<String> _appBarTitles = ["Cook List", "Home", "Settings"];
 
   Widget build(BuildContext context) {
     final List<Widget> _widgetOptions = [
@@ -67,7 +95,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
       padding: EdgeInsets.all(10),
       children: tableOrders.entries.map((entry) {
         int tableNumber = entry.key;
-        List<String> orders = entry.value;
+        List<Map<String, dynamic>> orders = entry.value;
 
         return GestureDetector(
           onTap: () {
@@ -107,8 +135,8 @@ class _ChiefScreenState extends State<ChiefScreen> {
     );
   }
 
-  void _showOrderDetails(
-      BuildContext context, int tableNumber, List<String> orders) {
+  void _showOrderDetails(BuildContext context, int tableNumber,
+      List<Map<String, dynamic>> orders) {
     showDialog(
       context: context,
       builder: (context) {
@@ -116,7 +144,44 @@ class _ChiefScreenState extends State<ChiefScreen> {
           title: Center(child: Text("Table $tableNumber Orders")),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: orders.map((item) => Text(item)).toList(),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Food Name",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text("Quantity",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              ...orders.map((item) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(item['name'], style: TextStyle(fontSize: 16)),
+                      Text(
+                        "x ${item['quantity']}",
+                        style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                      ),
+                    ],
+                  )),
+              Divider(thickness: 1, color: Colors.grey), // Add a divider
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Total Quantity",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "${orders.fold<int>(0, (sum, item) => sum + ((item['quantity'] ?? 0) as int))}", // Calculate total quantity
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
           ),
           actions: [
             TextButton(
