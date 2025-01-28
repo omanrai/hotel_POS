@@ -16,18 +16,25 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text('Login'),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: MediaQuery.of(context).size.width * 0.1,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/logo/logo.png', // Replace with your logo path
+              'assets/logo/logo.png',
               width: MediaQuery.of(context).size.width * 0.8,
               fit: BoxFit.fill,
             ),
-            SizedBox(height: 20),
+            // SizedBox(height: 10),
             Text(
               'Restro Khaja',
               style: TextStyle(
@@ -35,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 60),
             Form(
               key: _formKey,
               child: Column(
@@ -89,29 +96,35 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   SizedBox(height: 40),
+
                   // Login Button
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        // Navigate to ChooseJobScreen if validation is successful
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ChooseJobScreen()),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[600], // Primary color
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10), // Circular border radius
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          // Navigate to ChooseJobScreen if validation is successful
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChooseJobScreen()),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue[600],
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 16),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            letterSpacing: 1),
+                      ),
                     ),
                   ),
                 ],

@@ -28,18 +28,18 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Center(
               child: Image.asset(
                 'assets/logo/logo.png',
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width,
                 fit: BoxFit.fill,
               ),
             ),
           ),
           Expanded(
-            flex: 1,
-            child: CircularProgressIndicator(),
+            flex: 2,
+            child: Center(child: CircularProgressIndicator()),
           ),
         ],
       ),
