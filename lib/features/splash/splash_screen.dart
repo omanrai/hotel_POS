@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../job/choose_job_screen.dart';
+import 'package:hotel_pos/features/auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,36 +10,38 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
+    _navigateToLogin();
   }
 
-  void _navigateToHome() async {
+  void _navigateToLogin() async {
     await Future.delayed(Duration(seconds: 3)); // Delay for 3 seconds
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ChooseJobScreen()),
+      MaterialPageRoute(builder: (context) => LoginScreen()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.flash_on,
-              size: 100,
-              color: Colors.blue,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 3,
+            child: Center(
+              child: Image.asset(
+                'assets/logo/logo.png',
+                width: MediaQuery.of(context).size.width * 0.8,
+                fit: BoxFit.fill,
+              ),
             ),
-            SizedBox(height: 20),
-            Text(
-              'Welcome to Digital Paana',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+          ),
+          Expanded(
+            flex: 1,
+            child: CircularProgressIndicator(),
+          ),
+        ],
       ),
     );
   }

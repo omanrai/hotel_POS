@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Splash Screen Navigation',
+      
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.blue[600], // Set the primary color to blue[600]
