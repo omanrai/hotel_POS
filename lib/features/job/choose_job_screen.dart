@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/widget/transition_effect.dart';
 import '../chief/chief_screen.dart';
 
 class ChooseJobScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class ChooseJobScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Choose Job',
+            'Choose a Job',
           ),
           centerTitle: true,
         ),
@@ -22,11 +23,11 @@ class ChooseJobScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => ChiefScreen()),
-                      );
+                    onPressed: () async {
+                      // Wait for 2 seconds
+                      await Future.delayed(Duration(seconds: 2));
+                      Navigator.of(context)
+                          .pushReplacement(slideTransition(ChiefScreen()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[600],
@@ -46,11 +47,11 @@ class ChooseJobScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => WaiterScreen()),
-                      // );
+                    onPressed: () async {
+                      // Wait for 2 seconds
+                      await Future.delayed(Duration(seconds: 2));
+                      // Navigator.of(context)
+                      //     .pushReplacement(slideTransition(WaiterScreen()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[600],

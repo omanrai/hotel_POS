@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../core/widget/transition_effect.dart';
 import '../job/choose_job_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,124 +13,136 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
+  void _login() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      FocusManager.instance.primaryFocus?.unfocus();
+
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Prevent closing during loading
+        builder: (context) => Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      // Wait for 2 seconds
+      await Future.delayed(Duration(seconds: 2));
+
+      // Close the loading indicator
+      Navigator.pop(context);
+
+      // Navigate with fade transition
+      Navigator.of(context).pushReplacement(slideTransition(ChooseJobScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: MediaQuery.of(context).size.width * 0.1,
-        ),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/logo/logo.png',
-              width: MediaQuery.of(context).size.width * 0.8,
-              fit: BoxFit.fill,
-            ),
-            // SizedBox(height: 10),
-            Text(
-              'Restro Khaja',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 60),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  // Username TextField
-                  TextFormField(
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                      labelText: 'Username',
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty || value.length < 3) {
-                        return 'Username must be at least 3 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  // Password TextField
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: !_isPasswordVisible,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(Icons.lock),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isPasswordVisible
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(title: Text('Login')),
+      body: SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/logo/logo.png',
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  fit: BoxFit.fill,
+                ),
+                Text(
+                  'Restro Khaja',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 40),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _usernameController,
+                        decoration: InputDecoration(
+                          labelText: 'Username',
+                          prefixIcon: Icon(Icons.person),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _isPasswordVisible = !_isPasswordVisible;
-                          });
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.length < 3) {
+                            return 'Username must be at least 3 characters';
+                          }
+                          return null;
                         },
                       ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: !_isPasswordVisible,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          prefixIcon: Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isPasswordVisible
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.length < 5) {
+                            return 'Password must be at least 5 characters';
+                          }
+                          return null;
+                        },
                       ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty || value.length < 5) {
-                        return 'Password must be at least 5 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 40),
-
-                  // Login Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          // Navigate to ChooseJobScreen if validation is successful
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChooseJobScreen()),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue[600],
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                      SizedBox(height: 40),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _login,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[600],
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                letterSpacing: 1),
+                          ),
                         ),
                       ),
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            letterSpacing: 1),
-                      ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
