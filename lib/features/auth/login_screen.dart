@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_pos/core/app_colors.dart';
+import '../../core/widget/custom_snackbar.dart';
 import '../../core/widget/transition_effect.dart';
 import '../job/choose_job_screen.dart';
 
@@ -22,7 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
         context: context,
         barrierDismissible: false, // Prevent closing during loading
         builder: (context) => Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            color: primaryColor,
+          ),
         ),
       );
 
@@ -34,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // Navigate with fade transition
       Navigator.of(context).pushReplacement(slideTransition(ChooseJobScreen()));
+      showSuccessSnackBar(context, "LogIn Successful", Colors.green);
     }
   }
 
