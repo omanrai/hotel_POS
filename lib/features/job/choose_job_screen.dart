@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../chief/chief_screen.dart';
+
 class ChooseJobScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,10 @@ class ChooseJobScreen extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () {
-                print('Chief button pressed');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChiefScreen()),
+                );
               },
               style: TextButton.styleFrom(
                 shape: RoundedRectangleBorder(
