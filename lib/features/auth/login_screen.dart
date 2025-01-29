@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/core/app_colors.dart';
+import '../../core/widget/contstant.dart';
 import '../../core/widget/custom_snackbar.dart';
 import '../../core/widget/transition_effect.dart';
 import '../job/choose_job_screen.dart';
@@ -63,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fit: BoxFit.fill,
                 ),
                 Text(
-                  'Restro Khaja',
+                  companyName,
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 40),

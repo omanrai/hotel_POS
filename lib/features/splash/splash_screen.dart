@@ -5,6 +5,8 @@ import 'package:hotel_pos/features/job/choose_job_screen.dart';
 import '../../core/widget/transition_effect.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

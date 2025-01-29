@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/core/app_colors.dart';
-import 'package:hotel_pos/core/widget/url_launcher.dart';
 import 'package:hotel_pos/features/auth/login_screen.dart';
 import 'package:hotel_pos/features/chief/delete_item_screen.dart';
 
@@ -8,13 +7,16 @@ import '../../core/widget/contstant.dart';
 import '../../core/widget/custom_snackbar.dart';
 import '../../core/widget/notification_item_widget.dart';
 import '../../core/widget/transition_effect.dart';
+import '../../core/widget/url_launcher.dart';
 
-class ChiefScreen extends StatefulWidget {
+class WaiterScreen extends StatefulWidget {
+  const WaiterScreen({super.key});
+
   @override
-  _ChiefScreenState createState() => _ChiefScreenState();
+  _WaiterScreenState createState() => _WaiterScreenState();
 }
 
-class _ChiefScreenState extends State<ChiefScreen> {
+class _WaiterScreenState extends State<WaiterScreen> {
   int _selectedIndex = 1;
   bool _isNotificationEnabled = true;
   // List<Map<String, dynamic>> deletedOrders = [];
@@ -64,9 +66,9 @@ class _ChiefScreenState extends State<ChiefScreen> {
 
   // 🔹 Titles for each screen
   final List<String> _appBarTitles = [
-    "Cook List",
+    "Orders List",
     "Home",
-    "Notifications",
+    "Notification",
     "Settings"
   ];
 
@@ -263,7 +265,6 @@ class _ChiefScreenState extends State<ChiefScreen> {
                 color: primaryColor,
               ),
             ),
-            Spacer(),
             TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text(
@@ -306,12 +307,12 @@ class _ChiefScreenState extends State<ChiefScreen> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Total Cooked Items",
+                  "Total Ordered Items",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 5),
                 Text(
-                  "150 Items Cooked Today",
+                  "150 Items Order Today",
                   style: TextStyle(fontSize: 16, color: Colors.blue[900]),
                 ),
               ],
@@ -362,69 +363,6 @@ class _ChiefScreenState extends State<ChiefScreen> {
     );
   }
 
-  Widget _buildNotificationScreen() {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Jan 05, 2025",
-            // style: TextStyle(fontSi, ),
-          ),
-          SizedBox(height: 10),
-          NotificationItemWidget(
-            iconName: Icons.notifications_active_outlined,
-            containerColor: secondaryColor,
-            iconColor: neutralMutedGrey,
-            notificationTitle:
-                "You have received Table No. 1 order. View now !!!",
-          ),
-          SizedBox(height: 14),
-          NotificationItemWidget(
-            iconName: Icons.notifications_active_outlined,
-            containerColor: secondaryColor,
-            iconColor: neutralMutedGrey,
-            notificationTitle: "Table No. 5 order  has been cancel !!!",
-          ),
-          SizedBox(height: 14),
-          NotificationItemWidget(
-            iconName: Icons.notifications_outlined,
-            containerColor: Colors.white60,
-            iconColor: primaryColor,
-            notificationTitle: "Table No. 2 Room has Checkout.",
-          ),
-          SizedBox(height: 24),
-          Text(
-            "Jan 01, 2025",
-            // style: TextStyle(fontSi, ),
-          ),
-          SizedBox(height: 10),
-          NotificationItemWidget(
-            iconName: Icons.notifications_outlined,
-            containerColor: Colors.white60,
-            iconColor: primaryColor,
-            notificationTitle: "Today Shop will be closed",
-          ),
-          SizedBox(height: 24),
-          Text(
-            "Dec 28, 2024",
-            // style: TextStyle(fontSi, ),
-          ),
-          SizedBox(height: 10),
-          NotificationItemWidget(
-            iconName: Icons.notifications_outlined,
-            containerColor: Colors.white60,
-            iconColor: primaryColor,
-            notificationTitle:
-                "You have received Table No. 5 order. View now !!!",
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildSettingsScreen() {
     return Column(
       children: [
@@ -432,25 +370,23 @@ class _ChiefScreenState extends State<ChiefScreen> {
           color: primaryColor,
           width: double.infinity,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 20),
               CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage("assets/logo/messi.png"),
+                backgroundImage: AssetImage("assets/logo/cr7.jpg"),
               ),
               SizedBox(height: 10),
               Text(
-                "Leo Messi",
+                "Cristiano Ronaldo",
                 style: TextStyle(fontSize: 20, color: Colors.white),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
             ],
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.08,
+          height: MediaQuery.of(context).size.height * 0.1,
         ),
         Padding(
           padding: const EdgeInsets.all(12.0),
@@ -508,7 +444,6 @@ class _ChiefScreenState extends State<ChiefScreen> {
                     showSuccessSnackBar(
                         context, "You Won't get Notification", Colors.red);
                   }
-                  // ✅ Update state when pressed
                 });
               },
             )
@@ -553,6 +488,69 @@ class _ChiefScreenState extends State<ChiefScreen> {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildNotificationScreen() {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Jan 05, 2025",
+            // style: TextStyle(fontSi, ),
+          ),
+          SizedBox(height: 10),
+          NotificationItemWidget(
+            iconName: Icons.notifications_active_outlined,
+            containerColor: secondaryColor,
+            iconColor: neutralMutedGrey,
+            notificationTitle: "Table No. 1 Food is ready. Pick up Now",
+          ),
+          SizedBox(height: 14),
+          NotificationItemWidget(
+            iconName: Icons.notifications_active_outlined,
+            containerColor: secondaryColor,
+            iconColor: neutralMutedGrey,
+            notificationTitle:
+                "Table No. 7 is Reserved. No order can be placed now",
+          ),
+          SizedBox(height: 14),
+          NotificationItemWidget(
+            iconName: Icons.notifications_outlined,
+            containerColor: Colors.white60,
+            iconColor: primaryColor,
+            notificationTitle: "Table No. 2 food is ready. Pick up Now",
+          ),
+          SizedBox(height: 24),
+          Text(
+            "Jan 01, 2025",
+            // style: TextStyle(fontSi, ),
+          ),
+          SizedBox(height: 10),
+          NotificationItemWidget(
+            iconName: Icons.notifications_outlined,
+            containerColor: Colors.white60,
+            iconColor: primaryColor,
+            notificationTitle: "Today Shop will be closed",
+          ),
+          SizedBox(height: 24),
+          Text(
+            "Dec 28, 2024",
+            // style: TextStyle(fontSi, ),
+          ),
+          SizedBox(height: 10),
+          NotificationItemWidget(
+            iconName: Icons.notifications_outlined,
+            containerColor: Colors.white60,
+            iconColor: primaryColor,
+            notificationTitle:
+                "Table No. 7 is Occupied. No Order can be placed now",
+          ),
+        ],
+      ),
     );
   }
 }
