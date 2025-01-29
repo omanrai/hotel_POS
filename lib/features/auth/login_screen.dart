@@ -68,6 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 40),
+                Text(
+                  "Welcome,🙏",
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 18),
                 Form(
                   key: _formKey,
                   child: Column(

@@ -576,7 +576,10 @@ class _ChiefScreenState extends State<ChiefScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text("Cancel"),
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: primaryColor),
+              ),
             ),
             TextButton(
               onPressed: () {
@@ -586,7 +589,10 @@ class _ChiefScreenState extends State<ChiefScreen> {
 
                 showSuccessSnackBar(context, "Logout Successful", Colors.green);
               },
-              child: Text("Confirm"),
+              child: Text(
+                "Confirm",
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         );
