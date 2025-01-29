@@ -195,8 +195,8 @@
   //           TextButton(
   //             onPressed: () => Navigator.pop(context),
   //             child: Text("Cancel", 
-                // style: TextStyle(color: primaryColor),
-  // 
+  //               style: TextStyle(color: primaryColor),
+  
   // ),
   //           ),
   //           TextButton(
@@ -208,7 +208,7 @@
   //               showSuccessSnackBar(context, "Logout Successful", Colors.green);
   //             },
   //             child: Text("Confirm",  style: TextStyle(color: Colors.red),
-  // 
+  
   // ),
   //           ),
   //         ],
