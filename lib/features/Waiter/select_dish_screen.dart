@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/core/app_colors.dart';
+import 'package:badges/badges.dart' as badges;
 
 class SelectDishScreen extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class _SelectDishScreenState extends State<SelectDishScreen>
   late TabController _tabController;
 
   int count = 1; // Starting value
+  bool _showBadge = true;
 
   @override
   void initState() {
@@ -80,7 +82,46 @@ class _SelectDishScreenState extends State<SelectDishScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select Dish"),
+        title: const Text(
+          "Select Dish",
+        ),
+        actions: [
+          IconButton(
+            icon: badges.Badge(
+              showBadge: _showBadge,
+              badgeContent: Text(
+                "7",
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+              child: Icon(Icons.shopping_cart),
+            ),
+            onPressed: () async {
+              setState(() {
+                // deletedTables.clear(); // Clear deleted tables
+              });
+              // Show loading indicator
+              showDialog(
+                context: context,
+                barrierDismissible: false, // Prevent closing during loading
+                builder: (context) => Center(
+                  child: CircularProgressIndicator(
+                    color: primaryColor,
+                  ),
+                ),
+              );
+
+              await Future.delayed(Duration(seconds: 2));
+              // Close the loading indicator
+              Navigator.pop(context);
+              // Navigator.push(
+              //   context,
+              // MaterialPageRoute(
+              //   builder: (context) => CartScreen(),
+              // ),
+              // );
+            },
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
@@ -144,7 +185,7 @@ class _SelectDishScreenState extends State<SelectDishScreen>
                 const SizedBox(height: 5),
                 // Text("Rs. \${item["price"]}",
                 Text("Rs. ${item["price"]}",
-                    style: TextStyle(color: Colors.red)),
+                    style: TextStyle(color: secondaryColor)),
                 const SizedBox(height: 8),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
@@ -211,6 +252,7 @@ class _SelectDishScreenState extends State<SelectDishScreen>
                   child: Row(
                     children: [
                       Image.asset(
+                        //  item["image"],
                         "assets/logo/logo.png",
                         height: 60,
                         width: 60,

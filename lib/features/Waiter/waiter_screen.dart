@@ -116,7 +116,11 @@ class _WaiterScreenState extends State<WaiterScreen> {
       {"number": 1, "status": "Open", "color": Colors.green},
       {"number": 2, "status": "Occupied", "color": Colors.red[400]},
       {"number": 3, "status": "Reserved", "color": Colors.yellow[400]},
-      {"number": 4, "status": "Open", "color": Colors.green},
+      {
+        "number": 4,
+        "status": "Open",
+        "color": const Color.fromARGB(255, 104, 207, 107)
+      },
       {"number": 5, "status": "Occupied", "color": Colors.red},
     ];
 
@@ -125,8 +129,8 @@ class _WaiterScreenState extends State<WaiterScreen> {
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3, // 3 cards in one row
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 8,
           childAspectRatio: 1, // Adjust height
         ),
         itemCount: tables.length,
