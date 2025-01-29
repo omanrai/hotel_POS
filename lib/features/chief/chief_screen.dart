@@ -3,7 +3,7 @@ import 'package:hotel_pos/core/app_colors.dart';
 import 'package:hotel_pos/core/widget/url_launcher.dart';
 import 'package:hotel_pos/features/auth/login_screen.dart';
 import 'package:hotel_pos/features/chief/delete_item_screen.dart';
-
+import 'package:badges/badges.dart' as badges;
 import '../../core/widget/contstant.dart';
 import '../../core/widget/custom_snackbar.dart';
 import '../../core/widget/notification_item_widget.dart';
@@ -17,7 +17,8 @@ class ChiefScreen extends StatefulWidget {
 class _ChiefScreenState extends State<ChiefScreen> {
   int _selectedIndex = 1;
   bool _isNotificationEnabled = true;
-  // List<Map<String, dynamic>> deletedOrders = [];
+  bool _showBadge = true;
+
   List<Map<int, List<Map<String, dynamic>>>> deletedTables = [];
 
   Map<int, List<Map<String, dynamic>>> tableOrders = {
@@ -65,6 +66,10 @@ class _ChiefScreenState extends State<ChiefScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+
+      if (index == 2) {
+        _showBadge = false; // Hide badge when Notification tab is selected
+      }
     });
   }
 
@@ -91,8 +96,18 @@ class _ChiefScreenState extends State<ChiefScreen> {
         actions: [
           if (_selectedIndex == 0)
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: badges.Badge(
+                showBadge: deletedTables.isNotEmpty,
+                badgeContent: Text(
+                  "${deletedTables.length}",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                ),
+                child: Icon(Icons.delete),
+              ),
               onPressed: () async {
+                setState(() {
+                  deletedTables.clear(); // Clear deleted tables
+                });
                 // Show loading indicator
                 showDialog(
                   context: context,
@@ -127,12 +142,24 @@ class _ChiefScreenState extends State<ChiefScreen> {
         unselectedItemColor: primaryColor,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.kitchen), label: 'Cook'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        items: [
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.kitchen), label: 'Cook'),
+          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          // BottomNavigationBarItem(
+          //     icon: Icon(Icons.notification_add), label: 'Notification'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.notification_add), label: 'Notification'),
-          BottomNavigationBarItem(
+            icon: badges.Badge(
+              showBadge: _showBadge,
+              badgeContent: const Text(
+                '2',
+                style: TextStyle(color: Colors.white, fontSize: 12),
+              ),
+              child: const Icon(Icons.notification_add),
+            ),
+            label: 'Notification',
+          ),
+          const BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: 'Settings'),
         ],
         currentIndex: _selectedIndex,
