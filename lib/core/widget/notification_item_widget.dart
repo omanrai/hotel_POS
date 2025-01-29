@@ -44,7 +44,7 @@ class NotificationItemWidget extends StatelessWidget {
           Expanded(
             child: Text(
               notificationTitle,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
             ),
           ),
         ],

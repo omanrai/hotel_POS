@@ -500,7 +500,7 @@ class _WaiterScreenState extends State<WaiterScreen> {
         children: [
           Text(
             "Jan 05, 2025",
-            // style: TextStyle(fontSi, ),
+            style: TextStyle(fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 10),
           NotificationItemWidget(
@@ -527,7 +527,7 @@ class _WaiterScreenState extends State<WaiterScreen> {
           SizedBox(height: 24),
           Text(
             "Jan 01, 2025",
-            // style: TextStyle(fontSi, ),
+            style: TextStyle(fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 10),
           NotificationItemWidget(
@@ -539,7 +539,7 @@ class _WaiterScreenState extends State<WaiterScreen> {
           SizedBox(height: 24),
           Text(
             "Dec 28, 2024",
-            // style: TextStyle(fontSi, ),
+            style: TextStyle(fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 10),
           NotificationItemWidget(

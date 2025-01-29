@@ -54,6 +54,12 @@ class _ChiefScreenState extends State<ChiefScreen> {
       {"name": "Burrito", "quantity": 2},
       {"name": "Nachos", "quantity": 5},
     ],
+    9: [
+      {"name": "Lassi", "quantity": 1},
+      {"name": "Burrito", "quantity": 2},
+      {"name": "Coco-cola", "quantity": 1},
+      {"name": "Momo", "quantity": 2},
+    ],
   };
 
   void _onItemTapped(int index) {
@@ -250,26 +256,31 @@ class _ChiefScreenState extends State<ChiefScreen> {
             ],
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  Navigator.pop(context);
-                  deletedTables.add({tableNumber: orders});
-                  tableOrders.remove(tableNumber);
-                });
-              },
-              icon: Icon(
-                Icons.delete,
-                color: primaryColor,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                      deletedTables.add({tableNumber: orders});
+                      tableOrders.remove(tableNumber);
+                    });
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: primaryColor,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    "Close",
+                    style: TextStyle(color: primaryColor),
+                  ),
+                ),
+              ],
             ),
-            Spacer(),
-            TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  "Close",
-                  style: TextStyle(color: primaryColor),
-                )),
           ],
         );
       },
@@ -371,7 +382,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
         children: [
           Text(
             "Jan 05, 2025",
-            // style: TextStyle(fontSi, ),
+            style: TextStyle(fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 10),
           NotificationItemWidget(
@@ -398,7 +409,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
           SizedBox(height: 24),
           Text(
             "Jan 01, 2025",
-            // style: TextStyle(fontSi, ),
+            style: TextStyle(fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 10),
           NotificationItemWidget(
@@ -410,7 +421,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
           SizedBox(height: 24),
           Text(
             "Dec 28, 2024",
-            // style: TextStyle(fontSi, ),
+            style: TextStyle(fontWeight: FontWeight.w500),
           ),
           SizedBox(height: 10),
           NotificationItemWidget(
@@ -506,7 +517,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
                         context, "You will get Notification", Colors.green);
                   } else {
                     showSuccessSnackBar(
-                        context, "You Won't get Notification", Colors.red);
+                        context, "You won't get Notification", Colors.red);
                   }
                   // ✅ Update state when pressed
                 });
