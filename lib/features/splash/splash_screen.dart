@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/features/auth/login_screen.dart';
+import 'package:hotel_pos/features/job/choose_job_screen.dart';
 
 import '../../core/widget/transition_effect.dart';
 
@@ -22,7 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
     //   MaterialPageRoute(builder: (context) => LoginScreen()),
 
     // );
-    Navigator.of(context).pushReplacement(fadeTransition(LoginScreen()));
+    // Navigator.of(context).pushReplacement(fadeTransition(LoginScreen()));
+    Navigator.of(context).pushReplacement(fadeTransition(ChooseJobScreen()));
   }
 
   @override

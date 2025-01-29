@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/app_colors.dart';
 import '../../core/widget/transition_effect.dart';
 import '../chief/chief_screen.dart';
 
@@ -25,7 +26,22 @@ class ChooseJobScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () async {
                       // Wait for 2 seconds
+                      // Show loading indicator
+                      showDialog(
+                        context: context,
+                        barrierDismissible:
+                            false, // Prevent closing during loading
+                        builder: (context) => Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        ),
+                      );
+
                       await Future.delayed(Duration(seconds: 2));
+                      // Close the loading indicator
+                      Navigator.pop(context);
+
                       Navigator.of(context)
                           .pushReplacement(slideTransition(ChiefScreen()));
                     },

@@ -15,7 +15,7 @@ PageRouteBuilder fadeTransition(Widget page) {
 
 PageRouteBuilder slideTransition(Widget page) {
   return PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: 500), // Smooth transition
+    transitionDuration: Duration(milliseconds: 700), // Smooth transition
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       final slideAnimation = Tween<Offset>(
