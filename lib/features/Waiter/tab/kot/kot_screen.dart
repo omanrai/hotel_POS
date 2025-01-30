@@ -5,6 +5,7 @@ import 'package:hotel_pos/core/app_colors.dart';
 import 'package:hotel_pos/features/Waiter/tab/kot/cart_screen.dart';
 import 'package:hotel_pos/features/Waiter/tab/kot/order_item.dart';
 
+import '../../../../core/widget/custom_snackbar.dart';
 import '../../../../core/widget/transition_effect.dart';
 
 class OrderStatusScreen extends StatefulWidget {
@@ -250,9 +251,17 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.print_outlined, size: 28,
-                      // color: Colo,
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+
+                        showSuccessSnackBar(
+                            context, "Send KOT to Print", Colors.green);
+                      },
+                      icon: Icon(
+                        Icons.print_outlined,
+                        size: 28,
+                      ),
                     ),
                     SizedBox(width: 8),
                     Text('Send KOT'),

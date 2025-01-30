@@ -119,7 +119,7 @@ class _DeleteItemScreenState extends State<DeleteItemScreen> {
                   onPressed: () {
                     setState(() {
                       Navigator.pop(context);
-                      // deletedTables.add({tableNumber: orders});
+                      // tableNumber.;
                       // tableOrders.remove(tableNumber);
                     });
                   },

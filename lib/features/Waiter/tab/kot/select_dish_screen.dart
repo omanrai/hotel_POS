@@ -3,6 +3,8 @@ import 'package:hotel_pos/core/app_colors.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:hotel_pos/features/Waiter/tab/kot/cart_screen.dart';
 
+import '../../../../core/widget/custom_snackbar.dart';
+
 class SelectDishScreen extends StatefulWidget {
   @override
   _SelectDishScreenState createState() => _SelectDishScreenState();
@@ -371,6 +373,10 @@ class _SelectDishScreenState extends State<SelectDishScreen>
                                 cartCount++;
                               });
                               Navigator.pop(context);
+                              showSuccessSnackBar(
+                                  context,
+                                  "Order placed in cart Successfully",
+                                  Colors.green);
                             },
                             child: const Text("Add to Cart"),
                           ),

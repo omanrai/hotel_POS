@@ -431,6 +431,8 @@ class _WaiterScreenState extends State<WaiterScreen> {
                                   // _showDeleteBadge = true;
                                   deletedTables.add({tableNumber: orders});
                                   tableOrders.remove(tableNumber);
+                                  showSuccessSnackBar(
+                                      context, "Order Cancelled", Colors.red);
                                 });
                               },
                               icon: Icon(
@@ -978,7 +980,7 @@ class _WaiterScreenState extends State<WaiterScreen> {
                 Navigator.of(context)
                     .pushReplacement(slideTransition(LoginScreen()));
 
-                showSuccessSnackBar(context, "Logout Successful", Colors.green);
+                showSuccessSnackBar(context, "Logout Successful", Colors.red);
               },
               child: Text(
                 "Confirm",

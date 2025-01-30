@@ -319,6 +319,10 @@ class _ChiefScreenState extends State<ChiefScreen> {
                                   _showDeleteBadge = true;
                                   deletedTables.add({tableNumber: orders});
                                   tableOrders.remove(tableNumber);
+                                  showSuccessSnackBar(
+                                      context,
+                                      "Order Deleted Successfully... !!!",
+                                      Colors.red);
                                 });
                               },
                               icon: Icon(
@@ -637,7 +641,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
                 Navigator.of(context)
                     .pushReplacement(slideTransition(LoginScreen()));
 
-                showSuccessSnackBar(context, "Logout Successful", Colors.green);
+                showSuccessSnackBar(context, "Logout Successful", Colors.red);
               },
               child: Text(
                 "Confirm",

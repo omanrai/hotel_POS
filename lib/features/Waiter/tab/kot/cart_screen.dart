@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/core/app_colors.dart';
+import 'package:hotel_pos/core/widget/custom_snackbar.dart';
+import 'package:hotel_pos/core/widget/transition_effect.dart';
 import 'package:hotel_pos/features/Waiter/waiter_screen.dart';
 
 class CartScreen extends StatelessWidget {
@@ -94,56 +96,60 @@ class CartScreen extends StatelessWidget {
                                   ],
                                 ),
                                 SizedBox(height: 12),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    OutlinedButton.icon(
-                                      onPressed: () {},
-                                      icon: Icon(Icons.note_add_outlined),
-                                      label: Text('Add remarks to Dish'),
-                                      style: OutlinedButton.styleFrom(
-                                        foregroundColor: Colors.black54,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      OutlinedButton.icon(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.note_add_outlined),
+                                        label: Text('Add remarks to Dish'),
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: Colors.black54,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Spacer(),
-                                    IconButton(
-                                      icon: Icon(Icons.remove),
-                                      onPressed: () {},
-                                      style: IconButton.styleFrom(
-                                        backgroundColor: primaryColor,
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                      Spacer(),
+                                      IconButton(
+                                        icon: Icon(Icons.remove),
+                                        onPressed: () {},
+                                        style: IconButton.styleFrom(
+                                          backgroundColor: primaryColor,
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      child: Text(
-                                        '${item.quantity}',
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.add),
-                                      onPressed: () {},
-                                      style: IconButton.styleFrom(
-                                        backgroundColor: primaryColor,
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12),
+                                        child: Text(
+                                          '${item.quantity}',
+                                          style: TextStyle(fontSize: 16),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      IconButton(
+                                        icon: Icon(Icons.add),
+                                        onPressed: () {},
+                                        style: IconButton.styleFrom(
+                                          backgroundColor: primaryColor,
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -198,8 +204,15 @@ class CartScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                              onPressed: () {},
-                              child: Text('Confirm & Print'),
+                              onPressed: () {
+                                Navigator.pop(context); // Pop the CartScreen
+                                // Navigate with fade transition
+                                // Navigator.of(context).pushReplacement(fadeTransition(_buildOrderScreen()));
+                                showSuccessSnackBar(
+                                    context,
+                                    "Order placed Successfully and ready to print... !!!",
+                                    Colors.green);
+                              },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 foregroundColor: Colors.black54,
@@ -208,6 +221,7 @@ class CartScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
+                              child: Text('Confirm & Print'),
                             ),
                           ),
                           SizedBox(width: 16),
@@ -215,6 +229,8 @@ class CartScreen extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.pop(context); // Pop the CartScreen
+                                showSuccessSnackBar(context,
+                                    "Order placed Successfully", Colors.green);
                               },
                               child: Text('Confirm Order'),
                               style: ElevatedButton.styleFrom(
