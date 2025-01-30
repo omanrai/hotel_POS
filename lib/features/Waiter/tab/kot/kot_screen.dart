@@ -96,7 +96,7 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
                           border: Border.all(color: Colors.grey[300]!),
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
                               selectedStatus,
@@ -255,8 +255,8 @@ class _OrderStatusScreenState extends State<OrderStatusScreen> {
                       onPressed: () {
                         Navigator.pop(context);
 
-                        showSuccessSnackBar(
-                            context, "Send KOT to Print", Colors.green);
+                        showSuccessSnackBar(context,
+                            "Send KOT to Print Successfully.", Colors.green);
                       },
                       icon: Icon(
                         Icons.print_outlined,
