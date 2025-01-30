@@ -10,7 +10,7 @@ import '../../core/widget/notification_item_widget.dart';
 import '../../core/widget/url_launcher.dart';
 import '../auth/login_screen.dart';
 import 'tab/kot/kot_screen.dart';
-import 'select_dish_screen.dart';
+import 'tab/kot/select_dish_screen.dart';
 
 class WaiterScreen extends StatefulWidget {
   const WaiterScreen({super.key});
@@ -117,7 +117,7 @@ class _WaiterScreenState extends State<WaiterScreen> {
             child: TabBarView(
               children: [
                 _buildTableScreen(), // Table screen with cards
-                Center(child: Text("KOT Screen Content")),
+                _buildOrderedScreen(),
                 _buildKOTScreen(),
               ],
             ),
@@ -201,6 +201,14 @@ class _WaiterScreenState extends State<WaiterScreen> {
           );
         },
       ),
+    );
+  }
+
+  Widget _buildOrderedScreen() {
+    return Column(
+      children: [
+        
+      ],
     );
   }
 

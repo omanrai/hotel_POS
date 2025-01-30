@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/core/app_colors.dart';
 import 'package:hotel_pos/core/widget/url_launcher.dart';
@@ -18,6 +20,8 @@ class _ChiefScreenState extends State<ChiefScreen> {
   int _selectedIndex = 1;
   bool _isNotificationEnabled = true;
   bool _showBadge = true;
+  bool _showDeleteBadge = false;
+  int? _currentlyExpandedIndex;
 
   List<Map<int, List<Map<String, dynamic>>>> deletedTables = [];
 
@@ -29,37 +33,37 @@ class _ChiefScreenState extends State<ChiefScreen> {
       {"name": "Beer", "quantity": 4},
     ],
     3: [
-      {"name": "Sushi", "quantity": 5},
-      {"name": "Ramen", "quantity": 2},
-      {"name": "Fried Rice", "quantity": 1},
-      {"name": "Miso Soup", "quantity": 3},
-      {"name": "Sake", "quantity": 2},
+      {"name": "Sushi", "quantity": 5, "remarks": ""},
+      {"name": "Ramen", "quantity": 2, "remarks": "with boiled egg"},
+      {"name": "Fried Rice", "quantity": 1, "remarks": "less oil"},
+      {"name": "Miso Soup", "quantity": 3, "remarks": ""},
+      {"name": "Sake", "quantity": 2, "remarks": ""},
     ],
     5: [
-      {"name": "Steak", "quantity": 2},
-      {"name": "Salad", "quantity": 1},
-      {"name": "Soup", "quantity": 3},
-      {"name": "Wine", "quantity": 4},
-      {"name": "Cheesecake", "quantity": 2},
+      {"name": "Steak", "quantity": 2, "remarks": "warm soup"},
+      {"name": "Salad", "quantity": 1, "remarks": "cucumber only"},
+      {"name": "Soup", "quantity": 3, "remarks": "with pepper"},
+      {"name": "Wine", "quantity": 4, "remarks": ""},
+      {"name": "Cheesecake", "quantity": 2, "remarks": "no omlette"},
     ],
     2: [
-      {"name": "Biryani", "quantity": 3},
-      {"name": "Tandoori Chicken", "quantity": 1},
-      {"name": "Naan", "quantity": 4},
-      {"name": "Lassi", "quantity": 2},
-      {"name": "Chai", "quantity": 3},
-      {"name": "Gulab Jamun", "quantity": 2},
+      {"name": "Biryani", "quantity": 3, "remarks": "ghee added"},
+      {"name": "Tandoori Chicken", "quantity": 1, "remarks": ""},
+      {"name": "Naan", "quantity": 4, "remarks": ""},
+      {"name": "Lassi", "quantity": 2, "remarks": ""},
+      {"name": "Chai", "quantity": 3, "remarks": ""},
+      {"name": "Gulab Jamun", "quantity": 2, "remarks": ""},
     ],
     7: [
-      {"name": "Tacos", "quantity": 3},
-      {"name": "Burrito", "quantity": 2},
-      {"name": "Nachos", "quantity": 5},
+      {"name": "Tacos", "quantity": 3, "remarks": ""},
+      {"name": "Burrito", "quantity": 2, "remarks": ""},
+      {"name": "Nachos", "quantity": 5, "remarks": ""},
     ],
     9: [
-      {"name": "Lassi", "quantity": 1},
-      {"name": "Burrito", "quantity": 2},
-      {"name": "Coco-cola", "quantity": 1},
-      {"name": "Momo", "quantity": 2},
+      {"name": "Lassi", "quantity": 1, "remarks": "with ice"},
+      {"name": "Burrito", "quantity": 2, "remarks": ""},
+      {"name": "Coco-cola", "quantity": 1, "remarks": "lemon added"},
+      {"name": "Momo", "quantity": 2, "remarks": "pork soup"},
     ],
   };
 
@@ -97,7 +101,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
           if (_selectedIndex == 0)
             IconButton(
               icon: badges.Badge(
-                showBadge: deletedTables.isNotEmpty,
+                showBadge: _showDeleteBadge,
                 badgeContent: Text(
                   "${deletedTables.length}",
                   style: TextStyle(color: Colors.white, fontSize: 12),
@@ -106,7 +110,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
               ),
               onPressed: () async {
                 setState(() {
-                  deletedTables.clear(); // Clear deleted tables
+                  _showDeleteBadge = false;
                 });
                 // Show loading indicator
                 showDialog(
@@ -177,140 +181,186 @@ class _ChiefScreenState extends State<ChiefScreen> {
         int tableNumber = entry.key;
         List<Map<String, dynamic>> orders = entry.value;
 
-        return GestureDetector(
-          onTap: () {
-            _showOrderDetails(context, tableNumber, orders);
-          },
-          child: Container(
-            margin: EdgeInsets.only(bottom: 10),
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
+        // Calculate total quantity
+        int totalQuantity =
+            orders.fold(0, (sum, item) => sum + (item['quantity'] as int));
+
+        int index = tableNumber; // Use tableNumber as the unique index
+
+        return Card(
+          color: Colors.blue[50],
+          margin: EdgeInsets.only(bottom: 10),
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: ExpansionTile(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, 0),
-                )
-              ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            key: Key(index.toString()), // Unique key for each tile
+            initiallyExpanded:
+                _currentlyExpandedIndex == index, // Control expansion
+            onExpansionChanged: (isExpanded) {
+              setState(() {
+                log("🔹 Enter onExpansionChanged function");
+                log("Previous Expanded Index: $_currentlyExpandedIndex");
+                log("Current Pressed Index: $index");
+
+                if (isExpanded) {
+                  log("✅ Expanding Card: $index (Collapsing previous one if needed)");
+
+                  // Collapse the previously expanded tile before opening a new one
+                  if (_currentlyExpandedIndex != null &&
+                      _currentlyExpandedIndex != index) {
+                    log("🔻 Collapsing previous card: $_currentlyExpandedIndex");
+                  }
+
+                  _currentlyExpandedIndex = index; // Expand the new card
+                } else if (_currentlyExpandedIndex == index) {
+                  log("❌ Collapsing Card: $index");
+                  _currentlyExpandedIndex = null; // Collapse the current one
+                }
+              });
+            },
+
+            tilePadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: Image.asset("assets/logo/logo.png", width: 50, height: 50),
+            title: Text(
+              "Table No. $tableNumber Orders",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset("assets/logo/logo.png", width: 50, height: 50),
-                Text(
-                  "Table No. $tableNumber Orders",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-                Spacer(),
                 Text(
                   "${orders.length} Items",
                   style: TextStyle(fontSize: 16, color: Colors.grey[700]),
                 ),
-                //  Text(
-                //     "${orders.fold<int>(0, (sum, item) => sum + ((item['quantity'] ?? 0) as int))} Items",
-                //     style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-                //   ),
-                SizedBox(width: 5),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      deletedTables.add({tableNumber: orders});
-                      tableOrders.remove(tableNumber);
-                    });
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    color: primaryColor,
-                  ),
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: primaryColor,
                 ),
               ],
             ),
-          ),
-        );
-      }).toList(),
-    );
-  }
-
-  void _showOrderDetails(BuildContext context, int tableNumber,
-      List<Map<String, dynamic>> orders) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Center(child: Text("Table $tableNumber Orders")),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Food Name",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  Text("Quantity",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                ],
-              ),
-              ...orders.map((item) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Container(
+                color: Colors.white70,
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(item['name'], style: TextStyle(fontSize: 16)),
-                      Text(
-                        "x ${item['quantity']}",
-                        style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                      ...orders
+                          .map((order) => Padding(
+                                padding: EdgeInsets.only(bottom: 12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            order['name'],
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 4),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                primaryColor.withOpacity(0.1),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: Text(
+                                            "Qty: ${order['quantity']}",
+                                            style: TextStyle(
+                                              color: primaryColor,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    if (order['remarks'] != null &&
+                                        order['remarks'].toString().isNotEmpty)
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 4),
+                                        child: Text(
+                                          "Remarks: ${order['remarks']}",
+                                          style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: 14,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ))
+                          .toList(),
+                      Divider(thickness: 1),
+                      Padding(
+                        padding: EdgeInsets.only(top: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  _showDeleteBadge = true;
+                                  deletedTables.add({tableNumber: orders});
+                                  tableOrders.remove(tableNumber);
+                                });
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: primaryColor,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              "Total Quantity: ",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: secondaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                "$totalQuantity",
+                                style: TextStyle(
+                                  color: secondaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
-                  )),
-              Divider(thickness: 1, color: Colors.grey), // Add a divider
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Total Quantity",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    "${orders.fold<int>(0, (sum, item) => sum + ((item['quantity'] ?? 0) as int))}", // Calculate total quantity
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      Navigator.pop(context);
-                      deletedTables.add({tableNumber: orders});
-                      tableOrders.remove(tableNumber);
-                    });
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    color: primaryColor,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(
-                    "Close",
-                    style: TextStyle(color: primaryColor),
-                  ),
-                ),
-              ],
-            ),
-          ],
         );
-      },
+      }).toList(),
     );
   }
 

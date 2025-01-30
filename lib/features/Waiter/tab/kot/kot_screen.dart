@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/core/app_colors.dart';
-import 'package:hotel_pos/features/Waiter/cart_screen.dart';
+import 'package:hotel_pos/features/Waiter/tab/kot/cart_screen.dart';
 import 'package:hotel_pos/features/Waiter/tab/kot/order_item.dart';
 
 import '../../../../core/widget/transition_effect.dart';

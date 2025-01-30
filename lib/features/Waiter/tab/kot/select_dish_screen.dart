@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/core/app_colors.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:hotel_pos/features/Waiter/cart_screen.dart';
+import 'package:hotel_pos/features/Waiter/tab/kot/cart_screen.dart';
 
 class SelectDishScreen extends StatefulWidget {
   @override
@@ -98,7 +98,9 @@ class _SelectDishScreenState extends State<SelectDishScreen>
               child: Icon(Icons.shopping_cart),
             ),
             onPressed: () async {
-              setState(() {});
+              setState(() {
+                cartCount == 0;
+              });
               // Show loading indicator
               showDialog(
                 context: context,
