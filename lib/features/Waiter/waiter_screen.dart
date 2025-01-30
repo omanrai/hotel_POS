@@ -9,6 +9,7 @@ import '../../core/widget/custom_snackbar.dart';
 import '../../core/widget/notification_item_widget.dart';
 import '../../core/widget/url_launcher.dart';
 import '../auth/login_screen.dart';
+import 'tab/kot/kot_screen.dart';
 import 'select_dish_screen.dart';
 
 class WaiterScreen extends StatefulWidget {
@@ -93,25 +94,31 @@ class _WaiterScreenState extends State<WaiterScreen> {
       length: 3, // Three tabs
       child: Column(
         children: [
-          const TabBar(
-            labelColor: Colors.black,
-            labelStyle: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 0.6),
-            indicatorColor: Colors.blue,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorWeight: 3,
-            tabs: [
-              Tab(text: "Table"),
-              Tab(text: "Order"),
-              Tab(text: "KOT"),
-            ],
+          Container(
+            color: primaryColor,
+            child: TabBar(
+              labelColor: Colors.white,
+              labelStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.6),
+              indicatorColor: secondaryColor,
+              indicatorSize: TabBarIndicatorSize.tab,
+              unselectedLabelColor: darkGrey,
+              indicatorWeight: 3,
+              tabs: [
+                Tab(text: "Table"),
+                Tab(text: "Order"),
+                Tab(text: "KOT"),
+              ],
+            ),
           ),
           Expanded(
             child: TabBarView(
               children: [
                 _buildTableScreen(), // Table screen with cards
-                Center(child: Text("Order Screen Content")),
                 Center(child: Text("KOT Screen Content")),
+                _buildKOTScreen(),
               ],
             ),
           ),
@@ -123,15 +130,19 @@ class _WaiterScreenState extends State<WaiterScreen> {
   Widget _buildTableScreen() {
     // Sample data for tables
     final List<Map<String, dynamic>> tables = [
-      {"number": 1, "status": "Open", "color": Colors.green},
-      {"number": 2, "status": "Occupied", "color": Colors.red[400]},
-      {"number": 3, "status": "Reserved", "color": Colors.yellow[400]},
       {
-        "number": 4,
+        "number": 1,
         "status": "Open",
-        "color": const Color.fromARGB(255, 104, 207, 107)
+        "color": Colors.green[300],
       },
-      {"number": 5, "status": "Occupied", "color": Colors.red},
+      {"number": 2, "status": "Occupied", "color": Colors.blue[300]},
+      {"number": 3, "status": "Reserved", "color": Colors.yellow[300]},
+      {"number": 4, "status": "Occupied", "color": Colors.blue[300]},
+      {
+        "number": 5,
+        "status": "Open",
+        "color": Colors.green[300],
+      },
     ];
 
     return Padding(
@@ -159,7 +170,7 @@ class _WaiterScreenState extends State<WaiterScreen> {
                 showSuccessSnackBar(
                     context,
                     "This is reserved, right Now. Please wait !",
-                    Colors.yellow);
+                    const Color.fromARGB(255, 255, 230, 0));
               } else {
                 showSuccessSnackBar(context,
                     "This is Occupied, right Now, Please wait !", Colors.red);
@@ -176,19 +187,314 @@ class _WaiterScreenState extends State<WaiterScreen> {
                     "Table ${table["number"]}",
                     style: const TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     table["status"],
-                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                    style: const TextStyle(fontSize: 16, color: Colors.black54),
                   ),
                 ],
               ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildKOTScreen() {
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (int i = 0; i < 3; i++)
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    // Show loading indicator
+                    showDialog(
+                      context: context,
+                      barrierDismissible:
+                          false, // Prevent closing during loading
+                      builder: (context) => Center(
+                        child: CircularProgressIndicator(
+                          color: primaryColor,
+                        ),
+                      ),
+                    );
+
+                    // Wait for 2 seconds
+                    await Future.delayed(Duration(seconds: 2));
+
+                    // Close the loading indicator
+                    Navigator.pop(context);
+
+                    // Navigate with fade transition
+                    Navigator.of(context)
+                        .push(slideTransition(OrderStatusScreen()));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              // color: Colors.grey.withOpacity(0.3),
+                              color: ancientColor,
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                              // offset: Offset(0, 0),
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            spacing: 10,
+                            children: [
+                              Text("KOT #5"),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Table No. 1",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Status : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(
+                                          text: "Pending",
+                                          style: TextStyle(
+                                              color: secondaryColor,
+                                              letterSpacing: 1),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Date : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: "2025-01-20"),
+                                      ],
+                                    ),
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Time : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: "08:55 PM"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Total QTY : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: "20"),
+                                      ],
+                                    ),
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Total Price : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: "Rs. 50,000"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    // Show loading indicator
+                    showDialog(
+                      context: context,
+                      barrierDismissible:
+                          false, // Prevent closing during loading
+                      builder: (context) => Center(
+                        child: CircularProgressIndicator(
+                          color: primaryColor,
+                        ),
+                      ),
+                    );
+
+                    // Wait for 2 seconds
+                    await Future.delayed(Duration(seconds: 2));
+
+                    // Close the loading indicator
+                    Navigator.pop(context);
+
+                    // Navigate with fade transition
+                    Navigator.of(context)
+                        .push(slideTransition(OrderStatusScreen()));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              // color: Colors.grey.withOpacity(0.3),
+                              color: ancientColor,
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                              // offset: Offset(0, 0),
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            spacing: 10,
+                            children: [
+                              Text("KOT #7"),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Table No. 4",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Status : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        // TextSpan(text: "Pending",),
+                                        TextSpan(
+                                          text: "Completed",
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              letterSpacing: 1),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Date : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: "2025-01-22"),
+                                      ],
+                                    ),
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Time : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: "02:30 PM"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Total QTY : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: "5"),
+                                      ],
+                                    ),
+                                  ),
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Total Price : ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        TextSpan(text: "Rs. 70,000"),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+        ],
       ),
     );
   }

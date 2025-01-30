@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_pos/core/app_colors.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:hotel_pos/features/Waiter/cart_screen.dart';
 
 class SelectDishScreen extends StatefulWidget {
   @override
@@ -11,7 +12,8 @@ class _SelectDishScreenState extends State<SelectDishScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  int count = 1; // Starting value
+  int count = 1;
+  int cartCount = 0;
   bool _showBadge = true;
 
   @override
@@ -88,17 +90,15 @@ class _SelectDishScreenState extends State<SelectDishScreen>
         actions: [
           IconButton(
             icon: badges.Badge(
-              showBadge: _showBadge,
+              showBadge: cartCount != 0 ? _showBadge : !_showBadge,
               badgeContent: Text(
-                "7",
+                cartCount.toString(),
                 style: TextStyle(color: Colors.white, fontSize: 12),
               ),
               child: Icon(Icons.shopping_cart),
             ),
             onPressed: () async {
-              setState(() {
-                // deletedTables.clear(); // Clear deleted tables
-              });
+              setState(() {});
               // Show loading indicator
               showDialog(
                 context: context,
@@ -113,18 +113,27 @@ class _SelectDishScreenState extends State<SelectDishScreen>
               await Future.delayed(Duration(seconds: 2));
               // Close the loading indicator
               Navigator.pop(context);
-              // Navigator.push(
-              //   context,
-              // MaterialPageRoute(
-              //   builder: (context) => CartScreen(),
-              // ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartScreen(
+                    cartCount: cartCount,
+                  ),
+                ),
+              );
             },
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
+          labelColor: Colors.white,
+          labelStyle: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.6),
+          indicatorColor: secondaryColor,
+          indicatorSize: TabBarIndicatorSize.tab,
+          unselectedLabelColor: darkGrey,
+          indicatorWeight: 3,
           tabs: const [
             Tab(text: "All Category"),
             Tab(text: "Lunch"),
@@ -344,16 +353,29 @@ class _SelectDishScreenState extends State<SelectDishScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text("Cancel")),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Cancel")),
+                    ),
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        onPressed: () {},
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            cartCount++;
+                            Navigator.pop(context);
+                          });
+                        },
                         child: const Text(
                           "Add to Cart",
                           style: TextStyle(color: Colors.white),

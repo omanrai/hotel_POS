@@ -301,3 +301,224 @@
   //               showSuccessSnackBar(context,
   //                   "This is Occupied, right Now, Please wait !", Colors.red);
   //             }
+
+
+
+
+  import 'package:flutter/material.dart';
+
+class CartScreen extends StatelessWidget {
+  final List<CartItem> items = [
+    CartItem(
+      name: 'Burger',
+      variant: 'Chicken',
+      variantPrice: 220.0,
+      price: 440.0,
+      quantity: 2,
+      image: 'assets/burger.png',
+    ),
+    CartItem(
+      name: 'Chicken Pizza',
+      variant: 'Small',
+      variantPrice: 300.0,
+      price: 600.0,
+      quantity: 2,
+      image: 'assets/pizza.png',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Cart'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 1,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return Card(
+                  margin: EdgeInsets.all(8),
+                  elevation: 0,
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              item.image,
+                              width: 40,
+                              height: 40,
+                            ),
+                            SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.name,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${item.variant}@ ${item.variantPrice}',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              '${item.price}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 12),
+                        OutlinedButton.icon(
+                          onPressed: () {},
+                          icon: Icon(Icons.note_add_outlined),
+                          label: Text('Add remarks to Dish'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.black54,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.remove),
+                              onPressed: () {},
+                              style: IconButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              child: Text(
+                                '${item.quantity}',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.add),
+                              onPressed: () {},
+                              style: IconButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'KOT Remarks',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'QTY: 4',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      '1040.0',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () {},
+                        child: Text('Confirm & Print'),
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          foregroundColor: Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: Text('Confirm Order'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CartItem {
+  final String name;
+  final String variant;
+  final double variantPrice;
+  final double price;
+  final int quantity;
+  final String image;
+
+  CartItem({
+    required this.name,
+    required this.variant,
+    required this.variantPrice,
+    required this.price,
+    required this.quantity,
+    required this.image,
+  });
+}

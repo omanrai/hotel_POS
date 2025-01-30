@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // Navigate with fade transition
       Navigator.of(context).pushReplacement(slideTransition(ChooseJobScreen()));
-      showSuccessSnackBar(context, "LogIn Successful", Colors.green);
+      showSuccessSnackBar(context, "LogIn Successfully", Colors.green);
     }
   }
 
@@ -68,10 +68,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 40),
-                Text(
-                  "Welcome,🙏",
-                  style: TextStyle(fontSize: 18),
-                ),
+                // Text(
+                //   "Welcome,🙏 Please input your username and password to Login... ",
+                //   style: TextStyle(fontSize: 18),
+                // ),
                 SizedBox(height: 18),
                 Form(
                   key: _formKey,

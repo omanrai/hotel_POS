@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 // Color primaryColor = const Color(0xFF042954);
 Color primaryColor = const Color.fromRGBO(30, 136, 229, 1);
 
-Color ancientColor = const Color.fromARGB(255, 106, 156, 206);
+Color ancientColor = const Color.fromARGB(255, 173, 205, 236);
 
 // secondaryColor = FFA701
 // Navigation bars, headers, and primary backgrounds.
