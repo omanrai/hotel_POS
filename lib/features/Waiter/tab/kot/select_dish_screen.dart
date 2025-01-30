@@ -11,6 +11,7 @@ class SelectDishScreen extends StatefulWidget {
 class _SelectDishScreenState extends State<SelectDishScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  String selectedVariant = "Small";
 
   int count = 1;
   int cartCount = 0;
@@ -32,50 +33,49 @@ class _SelectDishScreenState extends State<SelectDishScreen>
     {
       "name": "Burger",
       "price": 599,
-      "image":
-          "https://static.vecteezy.com/system/resources/thumbnails/023/809/530/small/a-flying-burger-with-all-the-layers-ai-generative-free-photo.jpg",
+      "image": "assets/food/burger.jpg",
       "category": "Lunch"
     },
     {
       "name": "Pizza",
       "price": 799,
-      "image": "https://via.placeholder.com/80",
+      "image": "assets/food/pizza.jpg",
       "category": "Lunch"
     },
     {
       "name": "Orange Juice",
-      "price": 349,
-      "image": "https://via.placeholder.com/80",
+      "price": 160,
+      "image": "assets/food/orangejuice.jpg",
       "category": "Beverages"
     },
     {
       "name": "Coffee",
-      "price": 299,
-      "image": "https://via.placeholder.com/80",
+      "price": 120,
+      "image": "assets/food/coffee.jpg",
       "category": "Beverages"
     },
     {
       "name": "Steak",
-      "price": 1599,
-      "image": "https://via.placeholder.com/80",
+      "price": 1500,
+      "image": "assets/food/steak.jpg",
       "category": "Dinner"
     },
     {
       "name": "Pasta",
-      "price": 1099,
-      "image": "https://via.placeholder.com/80",
+      "price": 150,
+      "image": "assets/food/pasta.jpg",
       "category": "Dinner"
     },
     {
       "name": "Pancakes",
       "price": 100,
-      "image": "https://via.placeholder.com/80",
+      "image": "assets/food/pancakes.jpg",
       "category": "Breakfast"
     },
     {
       "name": "Omelette",
-      "price": 99,
-      "image": "https://via.placeholder.com/80",
+      "price": 120,
+      "image": "assets/food/omelette.jpg",
       "category": "Breakfast"
     },
   ];
@@ -185,7 +185,7 @@ class _SelectDishScreenState extends State<SelectDishScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/logo/logo.png",
+                  item["image"],
                   height: 80,
                   width: 80,
                   fit: BoxFit.cover,
@@ -231,183 +231,189 @@ class _SelectDishScreenState extends State<SelectDishScreen>
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return StatefulBuilder(
+          // Ensures state updates within the bottom sheet
+          builder: (context, setStateSheet) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Customize Dish",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    // border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        //  item["image"],
-                        "assets/logo/logo.png",
-                        height: 60,
-                        width: 60,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        item["name"],
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const Spacer(),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: primaryColor),
-                          // border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(8),
-                          color: primaryColor,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Customize Dish",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (count > 1) {
-                                    // Prevents going below 1
-                                    count--;
-                                  }
-                                });
-                              },
-                              icon: Icon(
-                                Icons.remove,
-                                size: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              count.toString(),
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  count++;
-                                });
-                              },
-                              icon: Icon(
-                                Icons.add,
-                                size: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const Text("Select Variant",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    _buildVariantOption("Small"),
-                    const SizedBox(width: 10),
-                    _buildVariantOption("Medium"),
-                    const SizedBox(width: 10),
-                    _buildVariantOption("Large"),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Text("Remarks",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 10),
-                TextField(
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    labelText: "Enter Remarks",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 80),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: TextButton(
+                        IconButton(
+                          icon: const Icon(Icons.close),
                           onPressed: () {
                             Navigator.pop(context);
+                            count = 1;
                           },
-                          child: Text("Cancel")),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            item["image"],
+                            height: 60,
+                            width: 60,
+                            fit: BoxFit.cover,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            item["name"],
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          const Spacer(),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: primaryColor),
+                              borderRadius: BorderRadius.circular(8),
+                              color: primaryColor,
+                            ),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    setStateSheet(() {
+                                      if (count > 1)
+                                        count--; // Prevents going below 1
+                                    });
+                                  },
+                                  icon: Icon(Icons.remove,
+                                      size: 16, color: Colors.white),
+                                ),
+                                SizedBox(width: 8),
+                                Text(count.toString(),
+                                    style: TextStyle(color: Colors.white)),
+                                SizedBox(width: 8),
+                                IconButton(
+                                  onPressed: () {
+                                    setStateSheet(() {
+                                      count++;
+                                    });
+                                  },
+                                  icon: Icon(Icons.add,
+                                      size: 16, color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text("Select Variant",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        _buildVariantOption("Small", setStateSheet),
+                        const SizedBox(width: 10),
+                        _buildVariantOption("Medium", setStateSheet),
+                        const SizedBox(width: 10),
+                        _buildVariantOption("Large", setStateSheet),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    const Text("Remarks",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 10),
+                    TextField(
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                        labelText: "Enter Remarks",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 250),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(color: primaryColor),
+                            ),
                           ),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            cartCount++;
-                            Navigator.pop(context);
-                          });
-                        },
-                        child: const Text(
-                          "Add to Cart",
-                          style: TextStyle(color: Colors.white),
+                        Expanded(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 14),
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                cartCount++;
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Add to Cart"),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
   }
 
-  Widget _buildVariantOption(String variant) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          Text(variant,
+  Widget _buildVariantOption(String variant, Function setStateSheet) {
+    return GestureDetector(
+      onTap: () {
+        setStateSheet(() {
+          selectedVariant = variant;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: selectedVariant == variant
+              ? Colors.blue[100]
+              : Colors.transparent, // Change color when selected
+          border: Border.all(color: Colors.black26),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Text(
+              variant,
               style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.w600)),
-          Text("Rs. 150", style: TextStyle(color: primaryColor)),
-        ],
+                  color: Colors.black, fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: 5),
+            Text("Rs. 150", style: TextStyle(color: Colors.black)),
+          ],
+        ),
       ),
     );
   }
