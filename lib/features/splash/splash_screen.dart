@@ -25,8 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
     //   MaterialPageRoute(builder: (context) => LoginScreen()),
 
     // );
-    // Navigator.of(context).pushReplacement(fadeTransition(LoginScreen()));
-    Navigator.of(context).pushReplacement(fadeTransition(ChooseJobScreen()));
+    Navigator.of(context).pushReplacement(fadeTransition(LoginScreen()));
+    // Navigator.of(context).pushReplacement(fadeTransition(ChooseJobScreen()));
   }
 
   @override
