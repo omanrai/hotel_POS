@@ -530,7 +530,6 @@ class _WaiterScreenState extends State<WaiterScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            spacing: 10,
                             children: [
                               Text("KOT #5"),
                               Row(
@@ -669,7 +668,6 @@ class _WaiterScreenState extends State<WaiterScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            spacing: 10,
                             children: [
                               Text("KOT #7"),
                               Row(
