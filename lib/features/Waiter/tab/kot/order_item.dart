@@ -7,8 +7,8 @@ class OrderItem extends StatelessWidget {
   const OrderItem({
     required this.name,
     required this.quantity,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class OrderItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('$name'),
+          Text(name),
           Text('$quantity'),
         ],
       ),

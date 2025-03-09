@@ -6,6 +6,8 @@ import 'package:hotel_pos/features/Waiter/tab/kot/cart_screen.dart';
 import '../../../../core/widget/custom_snackbar.dart';
 
 class SelectDishScreen extends StatefulWidget {
+  const SelectDishScreen({super.key});
+
   @override
   _SelectDishScreenState createState() => _SelectDishScreenState();
 }
@@ -17,7 +19,7 @@ class _SelectDishScreenState extends State<SelectDishScreen>
 
   int count = 1;
   int cartCount = 0;
-  bool _showBadge = true;
+  final bool _showBadge = true;
 
   @override
   void initState() {
@@ -293,8 +295,9 @@ class _SelectDishScreenState extends State<SelectDishScreen>
                                 IconButton(
                                   onPressed: () {
                                     setStateSheet(() {
-                                      if (count > 1)
+                                      if (count > 1) {
                                         count--; // Prevents going below 1
+                                      }
                                     });
                                   },
                                   icon: Icon(Icons.remove,

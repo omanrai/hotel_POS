@@ -238,7 +238,6 @@ class CartScreen extends StatelessWidget {
                                 showSuccessSnackBar(context,
                                     "Order placed Successfully", Colors.green);
                               },
-                              child: Text('Confirm Order'),
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.symmetric(vertical: 16),
                                 backgroundColor: primaryColor,
@@ -247,6 +246,7 @@ class CartScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
+                              child: Text('Confirm Order'),
                             ),
                           ),
                         ],

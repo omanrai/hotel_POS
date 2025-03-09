@@ -12,6 +12,8 @@ import '../../core/widget/notification_item_widget.dart';
 import '../../core/widget/transition_effect.dart';
 
 class ChiefScreen extends StatefulWidget {
+  const ChiefScreen({super.key});
+
   @override
   _ChiefScreenState createState() => _ChiefScreenState();
 }
@@ -85,8 +87,9 @@ class _ChiefScreenState extends State<ChiefScreen> {
     "Settings"
   ];
 
+  @override
   Widget build(BuildContext context) {
-    final List<Widget> _widgetOptions = [
+    final List<Widget> widgetOptions = [
       _buildCookScreen(),
       _buildHomeScreen(),
       _buildNotificationScreen(),
@@ -139,7 +142,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
         ],
       ),
 
-      body: _widgetOptions[_selectedIndex], //
+      body: widgetOptions[_selectedIndex], //
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.blue[200],
@@ -306,7 +309,7 @@ class _ChiefScreenState extends State<ChiefScreen> {
                                   ],
                                 ),
                               ))
-                          .toList(),
+                          ,
                       Divider(thickness: 1),
                       Padding(
                         padding: EdgeInsets.only(top: 8),

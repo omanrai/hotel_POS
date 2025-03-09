@@ -9,7 +9,7 @@ import '../../../../core/widget/custom_snackbar.dart';
 import '../../../../core/widget/transition_effect.dart';
 
 class OrderStatusScreen extends StatefulWidget {
-  OrderStatusScreen({super.key});
+  const OrderStatusScreen({super.key});
 
   @override
   State<OrderStatusScreen> createState() => _OrderStatusScreenState();

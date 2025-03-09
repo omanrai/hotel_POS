@@ -91,8 +91,9 @@ class _WaiterScreenState extends State<WaiterScreen> {
     "Settings"
   ];
 
+  @override
   Widget build(BuildContext context) {
-    final List<Widget> _widgetOptions = [
+    final List<Widget> widgetOptions = [
       _buildOrderScreen(),
       _buildHomeScreen(),
       _buildNotificationScreen(),
@@ -106,7 +107,7 @@ class _WaiterScreenState extends State<WaiterScreen> {
         actions: [],
       ),
 
-      body: _widgetOptions[_selectedIndex], //
+      body: widgetOptions[_selectedIndex], //
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.blue[200],
@@ -386,7 +387,7 @@ class _WaiterScreenState extends State<WaiterScreen> {
                                   ],
                                 ),
                               ))
-                          .toList(),
+                          ,
                       Divider(thickness: 1),
                       Padding(
                         padding: EdgeInsets.only(top: 8),

@@ -5,6 +5,8 @@ import '../Waiter/waiter_screen.dart';
 import '../chief/chief_screen.dart';
 
 class ChooseJobScreen extends StatefulWidget {
+  const ChooseJobScreen({super.key});
+
   @override
   _ChooseJobScreenState createState() => _ChooseJobScreenState();
 }
